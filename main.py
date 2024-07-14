@@ -1,10 +1,11 @@
-import os.path
-
-from PySide6.QtWidgets import QApplication
-from window import Window
-import sys
 import os
+import sys
+
 import winshell
+from PySide6.QtWidgets import QApplication
+
+from window import Window
+
 if getattr(sys, 'frozen', False):
     cur_file = os.path.basename(sys.executable)
 

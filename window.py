@@ -54,7 +54,9 @@ class Window(QWidget):
         self.setWindowIcon(QIcon(self.source_path('images/icon.png')))
         self.setObjectName('window')
 
-        # self.set_klaviatura()
+    def keyPressEvent(self, event):
+        if event.text() not in self.bosilgan_harflar and event.text() in self.klaviatura.buttons.keys():
+            self.klaviatura_bosildi(event.text())
 
     def show_img(self):
         pixmap = QPixmap(self.source_path(f'images/stage{self.mistakes + 1}.png'))
@@ -78,16 +80,21 @@ class Window(QWidget):
             self.mistakes += 1
             self.mistake.setText('Xatolar ' + str(self.mistakes))
             self.klaviatura.xato(text)
+            self.setStyleSheet(open(self.source_path('style.css')).read())
             self.show_img()
             if self.mistakes == 5:
+                self.answer = QLabel()
+                self.answer.setText(self.random_word)
+                self.answer.setStyleSheet('color: green; weight: 600; font-size: 40px')
+                self.vbox.addWidget(self.answer)
                 self.habar_ber('Siz yutqazdingiz. Yana o\'ynaysizmi?')
         else:
             self.klaviatura.togri(text)
+            self.setStyleSheet(open(self.source_path('style.css')).read())
             if '+' not in self.word.text():
                 self.scores += 1
                 self.score.setText('Natija ' + str(self.scores))
                 self.habar_ber('Tabriklaymiz. Siz yutdingiz. Yana o\'naysizmi?')
-        self.setStyleSheet(open(self.source_path('style.css')).read())
 
 
     def show_word(self):
@@ -108,12 +115,21 @@ class Window(QWidget):
             sys.exit()
 
     def qayta_ishga_tushirish(self):
-        self.mistakes = 0
-        self.bosilgan_harflar = []
-        self.mistake.setText('Xatolar ' + str(self.mistakes))
-        self.show_img()
-        self.choose_word()
-        self.klaviatura.boshlangich_holatga_otkaz()
+        try:
+            self.mistakes = 0
+            self.bosilgan_harflar = []
+            self.mistake.setText('Xatolar ' + str(self.mistakes))
+            self.show_img()
+            self.choose_word()
+            self.klaviatura.boshlangich_holatga_otkaz()
+            self.answer.deleteLater()
+        except (AttributeError, RuntimeError):
+            self.mistakes = 0
+            self.bosilgan_harflar = []
+            self.mistake.setText('Xatolar ' + str(self.mistakes))
+            self.show_img()
+            self.choose_word()
+            self.klaviatura.boshlangich_holatga_otkaz()
 
     def source_path(self, relative_path):
         path = getattr(sys, "_MEIPASS", os.path.dirname(__file__))
