@@ -120,9 +120,9 @@ class Window(QWidget):
             self.bosilgan_harflar = []
             self.mistake.setText('Xatolar ' + str(self.mistakes))
             self.show_img()
-            self.choose_word()
             self.klaviatura.boshlangich_holatga_otkaz()
             self.answer.deleteLater()
+            self.choose_word()
         except (AttributeError, RuntimeError):
             self.mistakes = 0
             self.bosilgan_harflar = []

@@ -22,7 +22,7 @@ class Klaviatura(QVBoxLayout):
 
         self.buttons = {}
 
-        for letters, place in {'йцукенгшўзғхъ': row_1, 'фықвапролджэ': row_2, 'ячсмитьбюҳ': row_3}.items():
+        for letters, place in {'йцукенгщшўзғхъ': row_1, 'фықвапролджэ-': row_2, 'ячсмитьбюҳ': row_3}.items():
             for letter in letters:
                 self.buttons[letter] = QPushButton(letter)
                 place.addWidget(self.buttons[letter])
